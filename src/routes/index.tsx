@@ -142,30 +142,67 @@ function ParallaxText({
 
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
-  const [scrollY, setScrollY] = useState(0);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const blob1Ref = useRef<HTMLDivElement>(null);
+  const blob2Ref = useRef<HTMLDivElement>(null);
+  const spotRef = useRef<HTMLDivElement>(null);
+  const heroInnerRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const manifestoBlobRef = useRef<HTMLDivElement>(null);
+  const manifestoTextRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = heroRef.current;
-    const onMove = (e: MouseEvent) => {
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      setMouse({
-        x: (e.clientX - r.left) / r.width,
-        y: (e.clientY - r.top) / r.height,
-      });
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let mx = 0, my = 0, tx = 0, ty = 0;
+    let sy = window.scrollY;
+    let raf = 0;
+    let pending = false;
+    const hero = heroRef.current;
+
+    const tick = () => {
+      pending = false;
+      tx += (mx - tx) * 0.12;
+      ty += (my - ty) * 0.12;
+      if (gridRef.current) gridRef.current.style.transform = `translate3d(${tx * -8}px, ${sy * 0.08 + ty * -8}px, 0)`;
+      if (blob1Ref.current) blob1Ref.current.style.transform = `translate3d(${tx * 20}px, ${sy * -0.18 + ty * 20}px, 0)`;
+      if (blob2Ref.current) blob2Ref.current.style.transform = `translate3d(${tx * -24}px, ${sy * -0.28 + ty * -14}px, 0)`;
+      if (spotRef.current) {
+        const px = (tx + 1) * 50, py = (ty + 1) * 50;
+        spotRef.current.style.background = `radial-gradient(600px circle at ${px}% ${py}%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 60%)`;
+      }
+      if (heroInnerRef.current) heroInnerRef.current.style.transform = `translate3d(0, ${sy * -0.04}px, 0)`;
+      if (terminalRef.current) terminalRef.current.style.transform = `translate3d(${tx * 8}px, ${ty * 8 + sy * -0.08}px, 0)`;
+      if (manifestoBlobRef.current) manifestoBlobRef.current.style.transform = `translate(-50%, calc(-50% + ${(sy - 1800) * -0.05}px))`;
+      if (manifestoTextRef.current) manifestoTextRef.current.style.transform = `translate3d(${(sy - 1500) * 0.1}px, 0, 0)`;
+      // continue easing while not settled
+      if (Math.abs(mx - tx) > 0.001 || Math.abs(my - ty) > 0.001) schedule();
     };
-    const onScroll = () => setScrollY(window.scrollY);
-    el?.addEventListener("mousemove", onMove);
+    const schedule = () => {
+      if (pending) return;
+      pending = true;
+      raf = requestAnimationFrame(tick);
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!hero) return;
+      const r = hero.getBoundingClientRect();
+      mx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      my = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      schedule();
+    };
+    const onScroll = () => { sy = window.scrollY; schedule(); };
+
+    hero?.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
+    schedule();
+
     return () => {
-      el?.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+      hero?.removeEventListener("mousemove", onMove);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-
-  const pMouseX = (mouse.x - 0.5) * 2;
-  const pMouseY = (mouse.y - 0.5) * 2;
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
