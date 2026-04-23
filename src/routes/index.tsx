@@ -504,7 +504,16 @@ function Home() {
 
       {/* MANIFESTO */}
       <section id="manifesto" className="relative overflow-hidden border-b border-border/60">
-        <div className="mx-auto max-w-5xl px-6 py-28 text-center">
+        {/* parallax decorative blobs */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl"
+          style={{ transform: `translate(-50%, calc(-50% + ${(scrollY - 1800) * -0.08}px))` }}
+        />
+        <ParallaxText scrollY={scrollY} className="pointer-events-none absolute -top-6 left-0 right-0 text-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground/40" speed={0.15}>
+          zero · knowledge · zero · log · zero · trust · zero · keep
+        </ParallaxText>
+        <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
+
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
             Manifesto
           </div>
