@@ -228,7 +228,10 @@ function Home() {
         {/* edge fades */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--background)_85%)]" />
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28">
+        <div
+          className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28"
+          style={{ transform: `translate3d(0, ${scrollY * -0.06}px, 0)` }}
+        >
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
