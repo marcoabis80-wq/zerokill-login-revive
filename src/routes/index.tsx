@@ -312,7 +312,14 @@ function Home() {
 
           {/* Terminal card */}
           <div className="lg:col-span-5">
-            <div className="relative">
+            <div
+              className="relative"
+              style={{
+                transform: `translate3d(${pMouseX * 14}px, ${pMouseY * 14 + scrollY * -0.12}px, 0) rotateX(${pMouseY * -3}deg) rotateY(${pMouseX * 3}deg)`,
+                transformStyle: "preserve-3d",
+                transition: "transform 120ms ease-out",
+              }}
+            >
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/40 via-primary/0 to-primary/20 opacity-60 blur-xl" />
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
                 <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
