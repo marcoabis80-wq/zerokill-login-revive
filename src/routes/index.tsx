@@ -197,13 +197,27 @@ function Home() {
       <section
         ref={heroRef}
         className="relative overflow-hidden border-b border-border/60"
-        style={{
-          backgroundImage:
-            "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          backgroundPosition: "center",
-        }}
       >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+            backgroundPosition: "center",
+            transform: `translate3d(${pMouseX * -12}px, ${scrollY * 0.15 + pMouseY * -12}px, 0)`,
+            willChange: "transform",
+          }}
+        />
+        <div
+          className="pointer-events-none absolute -top-20 -left-20 h-[420px] w-[420px] rounded-full bg-primary/15 blur-3xl"
+          style={{ transform: `translate3d(${pMouseX * 30}px, ${scrollY * -0.25 + pMouseY * 30}px, 0)` }}
+        />
+        <div
+          className="pointer-events-none absolute -bottom-32 right-0 h-[460px] w-[460px] rounded-full bg-primary/10 blur-3xl"
+          style={{ transform: `translate3d(${pMouseX * -40}px, ${scrollY * -0.4 + pMouseY * -20}px, 0)` }}
+        />
+
         {/* spotlight */}
         <div
           className="pointer-events-none absolute inset-0 transition-[background] duration-300"
