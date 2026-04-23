@@ -119,6 +119,27 @@ function Marquee() {
   );
 }
 
+function ParallaxText({
+  children,
+  scrollY,
+  speed = 0.2,
+  className = "",
+}: {
+  children: React.ReactNode;
+  scrollY: number;
+  speed?: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={className}
+      style={{ transform: `translate3d(${(scrollY - 1500) * speed}px, 0, 0)` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
