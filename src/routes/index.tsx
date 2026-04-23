@@ -122,23 +122,32 @@ function Marquee() {
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const el = heroRef.current;
-    if (!el) return;
     const onMove = (e: MouseEvent) => {
+      if (!el) return;
       const r = el.getBoundingClientRect();
       setMouse({
         x: (e.clientX - r.left) / r.width,
         y: (e.clientY - r.top) / r.height,
       });
     };
-    el.addEventListener("mousemove", onMove);
-    return () => el.removeEventListener("mousemove", onMove);
+    const onScroll = () => setScrollY(window.scrollY);
+    el?.addEventListener("mousemove", onMove);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el?.removeEventListener("mousemove", onMove);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
+  const pMouseX = (mouse.x - 0.5) * 2;
+  const pMouseY = (mouse.y - 0.5) * 2;
+
   return (
-    <div className="dark min-h-screen bg-background text-foreground antialiased">
+    <div className="min-h-screen bg-background text-foreground antialiased">
       {/* NAV */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
