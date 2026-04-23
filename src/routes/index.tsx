@@ -129,6 +129,8 @@ function Home() {
   const terminalRef = useRef<HTMLDivElement>(null);
   const manifestoBlobRef = useRef<HTMLDivElement>(null);
   const manifestoTextRef = useRef<HTMLDivElement>(null);
+  const haloRef = useRef<HTMLDivElement>(null);
+  const dotsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -155,6 +157,14 @@ function Home() {
       if (terminalRef.current) terminalRef.current.style.transform = `translate3d(${tx * 8}px, ${ty * 8 + sy * -0.08}px, 0)`;
       if (manifestoBlobRef.current) manifestoBlobRef.current.style.transform = `translate(-50%, calc(-50% + ${(sy - 1800) * -0.05}px))`;
       if (manifestoTextRef.current) manifestoTextRef.current.style.transform = `translate3d(${(sy - 1500) * 0.1}px, 0, 0)`;
+      if (haloRef.current) {
+        haloRef.current.style.transform = `translate3d(${tx * 12}px, ${ty * 12 + sy * -0.1}px, 0)`;
+        haloRef.current.style.opacity = String(Math.max(0, 1 - sy / 700));
+      }
+      if (dotsRef.current) {
+        dotsRef.current.style.transform = `translate3d(${tx * -6}px, ${ty * -6 + sy * 0.04}px, 0)`;
+        dotsRef.current.style.opacity = String(Math.max(0, 0.55 - sy / 900));
+      }
       // continue easing while not settled
       if (Math.abs(mx - tx) > 0.001 || Math.abs(my - ty) > 0.001) schedule();
     };
@@ -256,6 +266,30 @@ function Home() {
 
         {/* spotlight */}
         <div ref={spotRef} className="pointer-events-none absolute inset-0" />
+        {/* soft halo behind hero */}
+        <div
+          ref={haloRef}
+          className="pointer-events-none absolute left-1/2 top-1/3 -ml-[280px] h-[560px] w-[560px] rounded-full will-change-transform"
+          style={{
+            background:
+              "radial-gradient(circle, color-mix(in oklab, var(--primary) 12%, transparent), transparent 65%)",
+            filter: "blur(40px)",
+          }}
+        />
+        {/* particle dots */}
+        <div
+          ref={dotsRef}
+          className="pointer-events-none absolute inset-0 will-change-transform"
+          style={{
+            backgroundImage:
+              "radial-gradient(color-mix(in oklab, var(--foreground) 25%, transparent) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+            maskImage:
+              "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          }}
+        />
         {/* edge fades */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--background)_85%)]" />
 
