@@ -119,53 +119,69 @@ function Marquee() {
   );
 }
 
-function ParallaxText({
-  children,
-  scrollY,
-  speed = 0.2,
-  className = "",
-}: {
-  children: React.ReactNode;
-  scrollY: number;
-  speed?: number;
-  className?: string;
-}) {
-  return (
-    <div
-      className={className}
-      style={{ transform: `translate3d(${(scrollY - 1500) * speed}px, 0, 0)` }}
-    >
-      {children}
-    </div>
-  );
-}
-
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
-  const [scrollY, setScrollY] = useState(0);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const blob1Ref = useRef<HTMLDivElement>(null);
+  const blob2Ref = useRef<HTMLDivElement>(null);
+  const spotRef = useRef<HTMLDivElement>(null);
+  const heroInnerRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const manifestoBlobRef = useRef<HTMLDivElement>(null);
+  const manifestoTextRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = heroRef.current;
-    const onMove = (e: MouseEvent) => {
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      setMouse({
-        x: (e.clientX - r.left) / r.width,
-        y: (e.clientY - r.top) / r.height,
-      });
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let mx = 0, my = 0, tx = 0, ty = 0;
+    let sy = window.scrollY;
+    let raf = 0;
+    let pending = false;
+    const hero = heroRef.current;
+
+    const tick = () => {
+      pending = false;
+      tx += (mx - tx) * 0.12;
+      ty += (my - ty) * 0.12;
+      if (gridRef.current) gridRef.current.style.transform = `translate3d(${tx * -8}px, ${sy * 0.08 + ty * -8}px, 0)`;
+      if (blob1Ref.current) blob1Ref.current.style.transform = `translate3d(${tx * 20}px, ${sy * -0.18 + ty * 20}px, 0)`;
+      if (blob2Ref.current) blob2Ref.current.style.transform = `translate3d(${tx * -24}px, ${sy * -0.28 + ty * -14}px, 0)`;
+      if (spotRef.current) {
+        const px = (tx + 1) * 50, py = (ty + 1) * 50;
+        spotRef.current.style.background = `radial-gradient(600px circle at ${px}% ${py}%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 60%)`;
+      }
+      if (heroInnerRef.current) heroInnerRef.current.style.transform = `translate3d(0, ${sy * -0.04}px, 0)`;
+      if (terminalRef.current) terminalRef.current.style.transform = `translate3d(${tx * 8}px, ${ty * 8 + sy * -0.08}px, 0)`;
+      if (manifestoBlobRef.current) manifestoBlobRef.current.style.transform = `translate(-50%, calc(-50% + ${(sy - 1800) * -0.05}px))`;
+      if (manifestoTextRef.current) manifestoTextRef.current.style.transform = `translate3d(${(sy - 1500) * 0.1}px, 0, 0)`;
+      // continue easing while not settled
+      if (Math.abs(mx - tx) > 0.001 || Math.abs(my - ty) > 0.001) schedule();
     };
-    const onScroll = () => setScrollY(window.scrollY);
-    el?.addEventListener("mousemove", onMove);
+    const schedule = () => {
+      if (pending) return;
+      pending = true;
+      raf = requestAnimationFrame(tick);
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!hero) return;
+      const r = hero.getBoundingClientRect();
+      mx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      my = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      schedule();
+    };
+    const onScroll = () => { sy = window.scrollY; schedule(); };
+
+    hero?.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
+    schedule();
+
     return () => {
-      el?.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+      hero?.removeEventListener("mousemove", onMove);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-
-  const pMouseX = (mouse.x - 0.5) * 2;
-  const pMouseY = (mouse.y - 0.5) * 2;
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
@@ -220,38 +236,32 @@ function Home() {
         className="relative overflow-hidden border-b border-border/60"
       >
         <div
-          className="pointer-events-none absolute inset-0"
+          ref={gridRef}
+          className="pointer-events-none absolute inset-0 will-change-transform"
           style={{
             backgroundImage:
               "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
             backgroundSize: "56px 56px",
             backgroundPosition: "center",
-            transform: `translate3d(${pMouseX * -12}px, ${scrollY * 0.15 + pMouseY * -12}px, 0)`,
-            willChange: "transform",
           }}
         />
         <div
-          className="pointer-events-none absolute -top-20 -left-20 h-[420px] w-[420px] rounded-full bg-primary/15 blur-3xl"
-          style={{ transform: `translate3d(${pMouseX * 30}px, ${scrollY * -0.25 + pMouseY * 30}px, 0)` }}
+          ref={blob1Ref}
+          className="pointer-events-none absolute -top-20 -left-20 h-[420px] w-[420px] rounded-full bg-primary/15 blur-3xl will-change-transform"
         />
         <div
-          className="pointer-events-none absolute -bottom-32 right-0 h-[460px] w-[460px] rounded-full bg-primary/10 blur-3xl"
-          style={{ transform: `translate3d(${pMouseX * -40}px, ${scrollY * -0.4 + pMouseY * -20}px, 0)` }}
+          ref={blob2Ref}
+          className="pointer-events-none absolute -bottom-32 right-0 h-[460px] w-[460px] rounded-full bg-primary/10 blur-3xl will-change-transform"
         />
 
         {/* spotlight */}
-        <div
-          className="pointer-events-none absolute inset-0 transition-[background] duration-300"
-          style={{
-            background: `radial-gradient(600px circle at ${mouse.x * 100}% ${mouse.y * 100}%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%)`,
-          }}
-        />
+        <div ref={spotRef} className="pointer-events-none absolute inset-0" />
         {/* edge fades */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--background)_85%)]" />
 
         <div
-          className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28"
-          style={{ transform: `translate3d(0, ${scrollY * -0.06}px, 0)` }}
+          ref={heroInnerRef}
+          className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28 will-change-transform"
         >
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground backdrop-blur">
@@ -333,14 +343,7 @@ function Home() {
 
           {/* Terminal card */}
           <div className="lg:col-span-5">
-            <div
-              className="relative"
-              style={{
-                transform: `translate3d(${pMouseX * 14}px, ${pMouseY * 14 + scrollY * -0.12}px, 0) rotateX(${pMouseY * -3}deg) rotateY(${pMouseX * 3}deg)`,
-                transformStyle: "preserve-3d",
-                transition: "transform 120ms ease-out",
-              }}
-            >
+            <div ref={terminalRef} className="relative will-change-transform">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/40 via-primary/0 to-primary/20 opacity-60 blur-xl" />
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
                 <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
@@ -527,12 +530,15 @@ function Home() {
       <section id="manifesto" className="relative overflow-hidden border-b border-border/60">
         {/* parallax decorative blobs */}
         <div
-          className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl"
-          style={{ transform: `translate(-50%, calc(-50% + ${(scrollY - 1800) * -0.08}px))` }}
+          ref={manifestoBlobRef}
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl will-change-transform"
         />
-        <ParallaxText scrollY={scrollY} className="pointer-events-none absolute -top-6 left-0 right-0 text-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground/40" speed={0.15}>
+        <div
+          ref={manifestoTextRef}
+          className="pointer-events-none absolute -top-6 left-0 right-0 text-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground/40 will-change-transform"
+        >
           zero · knowledge · zero · log · zero · trust · zero · keep
-        </ParallaxText>
+        </div>
         <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
 
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
