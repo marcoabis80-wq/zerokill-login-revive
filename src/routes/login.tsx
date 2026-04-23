@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/login")({
   component: LoginPage,
   head: () => ({
     meta: [
