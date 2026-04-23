@@ -119,26 +119,56 @@ function Marquee() {
   );
 }
 
+function ParallaxText({
+  children,
+  scrollY,
+  speed = 0.2,
+  className = "",
+}: {
+  children: React.ReactNode;
+  scrollY: number;
+  speed?: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={className}
+      style={{ transform: `translate3d(${(scrollY - 1500) * speed}px, 0, 0)` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const el = heroRef.current;
-    if (!el) return;
     const onMove = (e: MouseEvent) => {
+      if (!el) return;
       const r = el.getBoundingClientRect();
       setMouse({
         x: (e.clientX - r.left) / r.width,
         y: (e.clientY - r.top) / r.height,
       });
     };
-    el.addEventListener("mousemove", onMove);
-    return () => el.removeEventListener("mousemove", onMove);
+    const onScroll = () => setScrollY(window.scrollY);
+    el?.addEventListener("mousemove", onMove);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el?.removeEventListener("mousemove", onMove);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
+  const pMouseX = (mouse.x - 0.5) * 2;
+  const pMouseY = (mouse.y - 0.5) * 2;
+
   return (
-    <div className="dark min-h-screen bg-background text-foreground antialiased">
+    <div className="min-h-screen bg-background text-foreground antialiased">
       {/* NAV */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -188,13 +218,27 @@ function Home() {
       <section
         ref={heroRef}
         className="relative overflow-hidden border-b border-border/60"
-        style={{
-          backgroundImage:
-            "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          backgroundPosition: "center",
-        }}
       >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+            backgroundPosition: "center",
+            transform: `translate3d(${pMouseX * -12}px, ${scrollY * 0.15 + pMouseY * -12}px, 0)`,
+            willChange: "transform",
+          }}
+        />
+        <div
+          className="pointer-events-none absolute -top-20 -left-20 h-[420px] w-[420px] rounded-full bg-primary/15 blur-3xl"
+          style={{ transform: `translate3d(${pMouseX * 30}px, ${scrollY * -0.25 + pMouseY * 30}px, 0)` }}
+        />
+        <div
+          className="pointer-events-none absolute -bottom-32 right-0 h-[460px] w-[460px] rounded-full bg-primary/10 blur-3xl"
+          style={{ transform: `translate3d(${pMouseX * -40}px, ${scrollY * -0.4 + pMouseY * -20}px, 0)` }}
+        />
+
         {/* spotlight */}
         <div
           className="pointer-events-none absolute inset-0 transition-[background] duration-300"
@@ -205,7 +249,10 @@ function Home() {
         {/* edge fades */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--background)_85%)]" />
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28">
+        <div
+          className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28"
+          style={{ transform: `translate3d(0, ${scrollY * -0.06}px, 0)` }}
+        >
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
@@ -286,7 +333,14 @@ function Home() {
 
           {/* Terminal card */}
           <div className="lg:col-span-5">
-            <div className="relative">
+            <div
+              className="relative"
+              style={{
+                transform: `translate3d(${pMouseX * 14}px, ${pMouseY * 14 + scrollY * -0.12}px, 0) rotateX(${pMouseY * -3}deg) rotateY(${pMouseX * 3}deg)`,
+                transformStyle: "preserve-3d",
+                transition: "transform 120ms ease-out",
+              }}
+            >
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/40 via-primary/0 to-primary/20 opacity-60 blur-xl" />
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
                 <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
@@ -471,7 +525,16 @@ function Home() {
 
       {/* MANIFESTO */}
       <section id="manifesto" className="relative overflow-hidden border-b border-border/60">
-        <div className="mx-auto max-w-5xl px-6 py-28 text-center">
+        {/* parallax decorative blobs */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl"
+          style={{ transform: `translate(-50%, calc(-50% + ${(scrollY - 1800) * -0.08}px))` }}
+        />
+        <ParallaxText scrollY={scrollY} className="pointer-events-none absolute -top-6 left-0 right-0 text-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground/40" speed={0.15}>
+          zero · knowledge · zero · log · zero · trust · zero · keep
+        </ParallaxText>
+        <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
+
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
             Manifesto
           </div>
