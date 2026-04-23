@@ -32,7 +32,7 @@ function LoginPage() {
       {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between px-6 py-5">
         <Link
-          to="/"
+          to={"/" as string}
           className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm transition hover:bg-accent"
         >
           <ArrowLeft className="h-4 w-4" />
