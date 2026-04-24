@@ -3,12 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Cloud,
-  Fingerprint,
   KeyRound,
   Layers,
   Lock,
   Network,
-  ShieldCheck,
   Sparkles,
   Terminal,
 } from "lucide-react";
@@ -128,7 +126,7 @@ function Home() {
   const heroInnerRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const manifestoBlobRef = useRef<HTMLDivElement>(null);
-  const manifestoTextRef = useRef<HTMLDivElement>(null);
+  const manifestoTextRef = useRef<HTMLDivElement | null>(null);
   const haloRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
 
