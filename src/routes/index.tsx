@@ -451,9 +451,9 @@ function Home() {
       {/* LAYERS */}
       <section id="layers" className="relative border-b border-border/60 bg-card/20">
         <div className="mx-auto max-w-7xl px-6 py-28">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="reveal mx-auto max-w-3xl text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Cinque strati. Uno scopo.
+              Cinque strati. <span className="gradient-text">Uno scopo.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
               Ogni livello è invalicabile da solo. Insieme formano una superficie d'attacco praticamente nulla.
