@@ -485,7 +485,8 @@ function Home() {
             ].map((l, i) => (
               <li
                 key={l.t}
-                className="group flex gap-8 border-t border-border/50 py-8 first:border-t-0 lg:py-10"
+                className="reveal group flex gap-8 border-t border-border/50 py-8 first:border-t-0 lg:py-10"
+                data-delay={i * 80}
               >
                 <div className="w-10 flex-shrink-0 pt-1 text-sm tabular-nums text-muted-foreground">
                   0{i + 1}
@@ -499,7 +500,7 @@ function Home() {
                   </p>
                 </div>
                 <KeyRound
-                  className="hidden h-5 w-5 self-center text-muted-foreground/30 transition group-hover:text-primary md:block"
+                  className="hidden h-5 w-5 self-center text-muted-foreground/30 transition group-hover:rotate-12 group-hover:text-primary md:block"
                   strokeWidth={1.75}
                 />
               </li>
