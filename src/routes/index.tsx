@@ -399,9 +399,9 @@ function Home() {
       {/* HOW IT WORKS */}
       <section id="how" className="relative border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-28">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="reveal mx-auto max-w-3xl text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Tre passi. Nessun compromesso.
+              Tre passi. <span className="gradient-text">Nessun compromesso.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
               Tutto avviene sul tuo dispositivo prima che un solo byte tocchi internet. Il server vede solo rumore.
