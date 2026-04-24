@@ -201,9 +201,6 @@ function Home() {
           <Link to={"/" as string} className="flex items-center gap-2">
             <Cloud className="h-6 w-6 text-primary" strokeWidth={2.5} />
             <span className="text-lg font-extrabold tracking-tight">ZeroKeep</span>
-            <span className="ml-2 rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              v1.0
-            </span>
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
             <a href="#how" className="text-sm text-muted-foreground transition hover:text-foreground">
@@ -298,15 +295,7 @@ function Home() {
           className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28 will-change-transform"
         >
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground backdrop-blur">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-              </span>
-              Beta pubblica · Made in Italy
-            </div>
-
-            <h1 className="mt-6 font-extrabold tracking-tight text-foreground">
+            <h1 className="font-extrabold tracking-tight text-foreground">
               <span className="block text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
                 I tuoi file.
               </span>
@@ -401,15 +390,6 @@ function Home() {
                 </div>
               </div>
 
-              {/* floating chip */}
-              <div className="absolute -bottom-5 -left-5 hidden rotate-[-4deg] rounded-xl border border-border bg-card px-4 py-3 shadow-xl sm:block">
-                <div className="flex items-center gap-2">
-                  <Fingerprint className="h-4 w-4 text-primary" />
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                    chiave: solo tua
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -495,10 +475,6 @@ function Home() {
                 Ogni livello è invalicabile da solo. Insieme formano una superficie d'attacco
                 praticamente nulla.
               </p>
-              <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium">
-                <ShieldCheck className="h-4 w-4 text-primary" />
-                Audit pubblico programmato
-              </div>
             </div>
 
             <ol className="lg:col-span-8 lg:space-y-0">
@@ -567,14 +543,7 @@ function Home() {
           ref={manifestoBlobRef}
           className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl will-change-transform"
         />
-        <div
-          ref={manifestoTextRef}
-          className="pointer-events-none absolute -top-6 left-0 right-0 text-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground/40 will-change-transform"
-        >
-          zero · knowledge · zero · log · zero · trust · zero · keep
-        </div>
         <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
-
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
             Manifesto
           </div>
