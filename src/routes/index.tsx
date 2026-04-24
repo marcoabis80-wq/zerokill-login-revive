@@ -428,14 +428,15 @@ function Home() {
                 t: "Distribuisci",
                 d: "Gli shards viaggiano su nodi indipendenti in Europa. Nessuno li ricomporrà.",
               },
-            ].map((step) => {
+            ].map((step, idx) => {
               const Icon = step.icon;
               return (
                 <div
                   key={step.n}
-                  className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card/60 p-8 backdrop-blur-xl transition hover:bg-card/80"
+                  className="reveal group relative overflow-hidden rounded-3xl border border-border/50 bg-card/60 p-8 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-primary/30 hover:bg-card/80 hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.4)]"
+                  data-delay={idx * 120}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground/5 text-foreground transition group-hover:bg-primary/10 group-hover:text-primary">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground/5 text-foreground transition group-hover:scale-110 group-hover:bg-primary/10 group-hover:text-primary">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
                   <h3 className="mt-10 text-2xl font-semibold tracking-tight">{step.t}</h3>
