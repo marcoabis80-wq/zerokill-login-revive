@@ -372,24 +372,17 @@ function Home() {
 
       {/* HOW IT WORKS */}
       <section id="how" className="relative border-b border-border/60">
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-                <Sparkles className="h-3.5 w-3.5" />
-                Architettura
-              </div>
-              <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-                Tre passi. Nessun compromesso.
-              </h2>
-            </div>
-            <p className="max-w-md text-muted-foreground">
-              Tutto avviene sul tuo dispositivo prima che un solo byte tocchi internet. Il server
-              vede solo rumore.
+        <div className="mx-auto max-w-7xl px-6 py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+              Tre passi. Nessun compromesso.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
+              Tutto avviene sul tuo dispositivo prima che un solo byte tocchi internet. Il server vede solo rumore.
             </p>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3">
+          <div className="mt-20 grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
               {
                 n: "01",
@@ -414,18 +407,13 @@ function Home() {
               return (
                 <div
                   key={step.n}
-                  className="group relative bg-card p-8 transition hover:bg-card/60"
+                  className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card/60 p-8 backdrop-blur-xl transition hover:bg-card/80"
                 >
-                  <div className="flex items-start justify-between">
-                    <span className="font-mono text-xs tracking-[0.25em] text-muted-foreground">
-                      {step.n}
-                    </span>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
-                      <Icon className="h-5 w-5" />
-                    </div>
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground/5 text-foreground transition group-hover:bg-primary/10 group-hover:text-primary">
+                    <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
-                  <h3 className="mt-12 text-2xl font-semibold">{step.t}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step.d}</p>
+                  <h3 className="mt-10 text-2xl font-semibold tracking-tight">{step.t}</h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{step.d}</p>
                 </div>
               );
             })}
@@ -434,101 +422,80 @@ function Home() {
       </section>
 
       {/* LAYERS */}
-      <section id="layers" className="relative border-b border-border/60 bg-card/30">
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-            <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
-              <div className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
-                Sicurezza
-              </div>
-              <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-                Cinque strati. Uno scopo.
-              </h2>
-              <p className="mt-6 text-muted-foreground">
-                Ogni livello è invalicabile da solo. Insieme formano una superficie d'attacco
-                praticamente nulla.
-              </p>
-            </div>
-
-            <ol className="lg:col-span-8 lg:space-y-0">
-              {[
-                {
-                  t: "La tua password",
-                  d: "Non lascia mai il tuo dispositivo. Il server riceve solo un'impronta matematica.",
-                  tags: ["PBKDF2", "600K iter", "Client-side"],
-                },
-                {
-                  t: "Crittografia file",
-                  d: "AES-256-GCM sul tuo device. Senza la tua chiave, è rumore casuale.",
-                  tags: ["AES-256", "GCM", "Zero-access"],
-                },
-                {
-                  t: "Chiave personale",
-                  d: "Una chiave master derivata localmente. Solo tu la possiedi, nessun backdoor.",
-                  tags: ["Argon2", "Master key"],
-                },
-                {
-                  t: "Frammentazione",
-                  d: "Reed-Solomon spezza il file in shards ridondanti. Recuperi tutto anche se perdi nodi.",
-                  tags: ["7-of-10", "Self-heal"],
-                },
-                {
-                  t: "Rete distribuita",
-                  d: "Nodi indipendenti in più giurisdizioni europee. Tor-ready by design.",
-                  tags: ["EU only", "Tor-ready"],
-                },
-              ].map((l, i) => (
-                <li
-                  key={l.t}
-                  className="group flex gap-6 border-t border-border/60 py-8 first:border-t-0 lg:py-10"
-                >
-                  <div className="flex-shrink-0 font-mono text-sm text-muted-foreground">
-                    0{i + 1}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-semibold transition group-hover:text-primary">
-                      {l.t}
-                    </h3>
-                    <p className="mt-2 max-w-xl text-muted-foreground">{l.d}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {l.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <KeyRound className="hidden h-5 w-5 text-muted-foreground/40 transition group-hover:text-primary md:block" />
-                </li>
-              ))}
-            </ol>
+      <section id="layers" className="relative border-b border-border/60 bg-card/20">
+        <div className="mx-auto max-w-7xl px-6 py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+              Cinque strati. Uno scopo.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
+              Ogni livello è invalicabile da solo. Insieme formano una superficie d'attacco praticamente nulla.
+            </p>
           </div>
+
+          <ol className="mx-auto mt-16 max-w-4xl">
+            {[
+              {
+                t: "La tua password",
+                d: "Non lascia mai il tuo dispositivo. Il server riceve solo un'impronta matematica.",
+              },
+              {
+                t: "Crittografia file",
+                d: "AES-256-GCM sul tuo device. Senza la tua chiave, è rumore casuale.",
+              },
+              {
+                t: "Chiave personale",
+                d: "Una chiave master derivata localmente. Solo tu la possiedi, nessun backdoor.",
+              },
+              {
+                t: "Frammentazione",
+                d: "Reed-Solomon spezza il file in shards ridondanti. Recuperi tutto anche se perdi nodi.",
+              },
+              {
+                t: "Rete distribuita",
+                d: "Nodi indipendenti in più giurisdizioni europee. Tor-ready by design.",
+              },
+            ].map((l, i) => (
+              <li
+                key={l.t}
+                className="group flex gap-8 border-t border-border/50 py-8 first:border-t-0 lg:py-10"
+              >
+                <div className="w-10 flex-shrink-0 pt-1 text-sm tabular-nums text-muted-foreground">
+                  0{i + 1}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-semibold tracking-tight transition group-hover:text-foreground">
+                    {l.t}
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+                    {l.d}
+                  </p>
+                </div>
+                <KeyRound
+                  className="hidden h-5 w-5 self-center text-muted-foreground/30 transition group-hover:text-primary md:block"
+                  strokeWidth={1.75}
+                />
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
       {/* MANIFESTO */}
       <section id="manifesto" className="relative overflow-hidden border-b border-border/60">
-        {/* parallax decorative blobs */}
+        {/* parallax decorative blob */}
         <div
           ref={manifestoBlobRef}
           className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl will-change-transform"
         />
-        <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
-          <div className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
-            Manifesto
-          </div>
-          <p className="mt-8 text-balance text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+        <div className="relative mx-auto max-w-5xl px-6 py-32 text-center">
+          <p className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
             Crediamo che la <span className="text-primary">privacy</span> non sia una feature.
             <br />
-            È il <span className="italic">prerequisito</span> per usare il cloud.
+            È il prerequisito per usare il cloud.
           </p>
-          <p className="mx-auto mt-8 max-w-2xl text-muted-foreground">
-            Niente promesse di marketing. Niente "ci fidiamo di noi". Solo matematica: se non
-            possediamo la chiave, non possiamo leggere i tuoi dati. Né noi, né un governo, né un
-            attaccante.
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            Niente promesse di marketing. Solo matematica: se non possediamo la chiave, non possiamo leggere i tuoi dati. Né noi, né un governo, né un attaccante.
           </p>
         </div>
       </section>
@@ -536,32 +503,29 @@ function Home() {
       {/* CTA */}
       <section className="border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-10 sm:p-16">
-            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
-            <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-            <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-              <div>
-                <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                  Pronto a sparire dai radar?
-                </h2>
-                <p className="mt-4 max-w-md text-muted-foreground">
-                  10 GB gratuiti, per sempre. Senza carta di credito. Senza tracker. Senza
-                  scadenza.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+          <div className="relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/60 p-12 backdrop-blur-2xl sm:p-20">
+            <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+            <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+            <div className="relative mx-auto max-w-2xl text-center">
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+                Pronto a sparire dai radar?
+              </h2>
+              <p className="mx-auto mt-5 max-w-md text-lg text-muted-foreground">
+                10 GB gratuiti, per sempre. Senza carta di credito. Senza scadenza.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   to="/login"
-                  className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/40 transition hover:bg-primary/90"
+                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition hover:bg-foreground/90"
                 >
                   Crea il vault
-                  <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-4 w-4" />
                 </Link>
                 <a
                   href="#how"
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-4 text-base font-medium text-foreground transition hover:bg-background"
+                  className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-7 py-3.5 text-[15px] font-medium text-foreground backdrop-blur transition hover:bg-background"
                 >
-                  Documentazione
+                  Scopri di più
                 </a>
               </div>
             </div>
