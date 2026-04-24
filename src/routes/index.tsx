@@ -157,6 +157,29 @@ function Home() {
     };
   }, []);
 
+  // Reveal-on-scroll
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            const delay = Number(el.dataset.delay ?? 0);
+            el.style.animationDelay = `${delay}ms`;
+            el.classList.add("in-view");
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
       {/* NAV — Apple-style floating, transparent, clean */}
