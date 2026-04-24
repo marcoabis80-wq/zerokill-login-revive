@@ -291,34 +291,19 @@ function Home() {
           className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28 will-change-transform"
         >
           <div className="lg:col-span-7">
-            <h1 className="font-extrabold tracking-tight text-foreground">
-              <span className="block text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
+            <h1 className="font-semibold tracking-tight text-foreground">
+              <span className="block text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
                 I tuoi file.
               </span>
-              <span className="block text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
-                <span className="relative inline-block">
-                  Frammentati.
-                  <svg
-                    className="absolute -bottom-2 left-0 h-3 w-full text-primary"
-                    viewBox="0 0 300 12"
-                    preserveAspectRatio="none"
-                  >
-                    <path
-                      d="M2 8 Q 75 2, 150 7 T 298 6"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
+              <span className="block text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
+                Frammentati.
               </span>
-              <span className="block text-5xl leading-[0.95] text-muted-foreground sm:text-6xl lg:text-7xl">
+              <span className="block text-5xl leading-[1.02] text-muted-foreground sm:text-6xl lg:text-7xl">
                 Invisibili.
               </span>
             </h1>
 
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground">
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
               ZeroKeep è il cloud italiano dove{" "}
               <span className="text-foreground">nessuno</span> può leggere i tuoi dati. Nemmeno noi.
               Crittografia client-side, frammentazione distribuita, zero log.
@@ -327,17 +312,16 @@ function Home() {
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <Link
                 to="/login"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:bg-primary/90"
+                className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:bg-foreground/90"
               >
                 Crea il tuo vault
-                <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight className="h-4 w-4" />
               </Link>
               <a
                 href="#how"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/40 px-6 py-3 text-sm font-medium text-foreground backdrop-blur transition hover:bg-card"
+                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/40 px-6 py-3 text-sm font-medium text-foreground backdrop-blur transition hover:bg-card"
               >
-                <Terminal className="h-4 w-4" />
-                Vedi come funziona
+                Scopri di più
               </a>
             </div>
 
@@ -349,10 +333,10 @@ function Home() {
                 { v: "0", l: "Log conservati" },
               ].map((s) => (
                 <div key={s.l}>
-                  <div className="font-mono text-3xl font-bold tracking-tight text-foreground">
+                  <div className="text-3xl font-semibold tracking-tight text-foreground">
                     {s.v}
                   </div>
-                  <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
+                  <div className="mt-1 text-xs text-muted-foreground">
                     {s.l}
                   </div>
                 </div>
@@ -363,35 +347,28 @@ function Home() {
           {/* Terminal card */}
           <div className="lg:col-span-5">
             <div ref={terminalRef} className="relative will-change-transform">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/40 via-primary/0 to-primary/20 opacity-60 blur-xl" />
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary/30 via-primary/0 to-primary/15 opacity-60 blur-2xl" />
+              <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] backdrop-blur-xl">
                 <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-primary/70" />
                     <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
                     <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
                   </div>
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                  <span className="font-mono text-[11px] text-muted-foreground">
                     ~/zerokeep
                   </span>
-                  <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+                  <span className="h-2 w-2 rounded-full bg-primary" />
                 </div>
-                <div className="min-h-[260px] p-5">
+                <div className="min-h-[280px] p-5">
                   <Typewriter />
                 </div>
-                <div className="grid grid-cols-3 border-t border-border/60 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  <div className="border-r border-border/60 px-3 py-2.5">enc client-side</div>
-                  <div className="border-r border-border/60 px-3 py-2.5">7 shards</div>
-                  <div className="px-3 py-2.5 text-primary">verified</div>
-                </div>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      <Marquee />
 
       {/* HOW IT WORKS */}
       <section id="how" className="relative border-b border-border/60">
