@@ -351,8 +351,30 @@ function Home() {
           {/* Terminal card */}
           <div className="lg:col-span-5">
             <div ref={terminalRef} className="relative will-change-transform">
+              {/* Animated orb behind terminal */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-6 -z-10"
+                style={{ animation: "float-y 8s ease-in-out infinite" }}
+              >
+                <div
+                  className="absolute inset-0 rounded-full opacity-70 blur-2xl"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg, color-mix(in oklab, var(--primary) 40%, transparent), transparent 35%, color-mix(in oklab, var(--primary) 25%, transparent) 60%, transparent 85%)",
+                    animation: "orb-spin 22s linear infinite",
+                  }}
+                />
+              </div>
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary/30 via-primary/0 to-primary/15 opacity-60 blur-2xl" />
               <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+                {/* Top shimmer accent */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px overflow-hidden">
+                  <div
+                    className="h-full w-1/2 bg-gradient-to-r from-transparent via-primary/70 to-transparent"
+                    style={{ animation: "shimmer 3.6s ease-in-out infinite" }}
+                  />
+                </div>
                 <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-primary/70" />
@@ -362,7 +384,7 @@ function Home() {
                   <span className="font-mono text-[11px] text-muted-foreground">
                     ~/zerokeep
                   </span>
-                  <span className="h-2 w-2 rounded-full bg-primary" />
+                  <span className="h-2 w-2 rounded-full bg-primary" style={{ animation: "float-y 2.4s ease-in-out infinite" }} />
                 </div>
                 <div className="min-h-[280px] p-5">
                   <Typewriter />
