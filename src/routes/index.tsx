@@ -1,15 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import {
-  ArrowUpRight,
-  Cloud,
-  KeyRound,
-  Layers,
-  Lock,
-  Network,
-  Sparkles,
-  Terminal,
-} from "lucide-react";
+import { ArrowUpRight, Cloud, KeyRound, Layers, Lock, Network } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
