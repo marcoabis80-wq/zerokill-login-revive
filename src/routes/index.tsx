@@ -516,9 +516,9 @@ function Home() {
           ref={manifestoBlobRef}
           className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl will-change-transform"
         />
-        <div className="relative mx-auto max-w-5xl px-6 py-32 text-center">
+        <div className="reveal relative mx-auto max-w-5xl px-6 py-32 text-center">
           <p className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-            Crediamo che la <span className="text-primary">privacy</span> non sia una feature.
+            Crediamo che la <span className="gradient-text">privacy</span> non sia una feature.
             <br />
             È il prerequisito per usare il cloud.
           </p>
