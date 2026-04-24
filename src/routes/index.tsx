@@ -157,6 +157,29 @@ function Home() {
     };
   }, []);
 
+  // Reveal-on-scroll
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            const delay = Number(el.dataset.delay ?? 0);
+            el.style.animationDelay = `${delay}ms`;
+            el.classList.add("in-view");
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
       {/* NAV — Apple-style floating, transparent, clean */}
@@ -328,8 +351,30 @@ function Home() {
           {/* Terminal card */}
           <div className="lg:col-span-5">
             <div ref={terminalRef} className="relative will-change-transform">
+              {/* Animated orb behind terminal */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-6 -z-10"
+                style={{ animation: "float-y 8s ease-in-out infinite" }}
+              >
+                <div
+                  className="absolute inset-0 rounded-full opacity-70 blur-2xl"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg, color-mix(in oklab, var(--primary) 40%, transparent), transparent 35%, color-mix(in oklab, var(--primary) 25%, transparent) 60%, transparent 85%)",
+                    animation: "orb-spin 22s linear infinite",
+                  }}
+                />
+              </div>
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary/30 via-primary/0 to-primary/15 opacity-60 blur-2xl" />
               <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/80 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+                {/* Top shimmer accent */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px overflow-hidden">
+                  <div
+                    className="h-full w-1/2 bg-gradient-to-r from-transparent via-primary/70 to-transparent"
+                    style={{ animation: "shimmer 3.6s ease-in-out infinite" }}
+                  />
+                </div>
                 <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-primary/70" />
@@ -339,7 +384,7 @@ function Home() {
                   <span className="font-mono text-[11px] text-muted-foreground">
                     ~/zerokeep
                   </span>
-                  <span className="h-2 w-2 rounded-full bg-primary" />
+                  <span className="h-2 w-2 rounded-full bg-primary" style={{ animation: "float-y 2.4s ease-in-out infinite" }} />
                 </div>
                 <div className="min-h-[280px] p-5">
                   <Typewriter />
@@ -354,9 +399,9 @@ function Home() {
       {/* HOW IT WORKS */}
       <section id="how" className="relative border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-28">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="reveal mx-auto max-w-3xl text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Tre passi. Nessun compromesso.
+              Tre passi. <span className="gradient-text">Nessun compromesso.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
               Tutto avviene sul tuo dispositivo prima che un solo byte tocchi internet. Il server vede solo rumore.
@@ -383,14 +428,15 @@ function Home() {
                 t: "Distribuisci",
                 d: "Gli shards viaggiano su nodi indipendenti in Europa. Nessuno li ricomporrà.",
               },
-            ].map((step) => {
+            ].map((step, idx) => {
               const Icon = step.icon;
               return (
                 <div
                   key={step.n}
-                  className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card/60 p-8 backdrop-blur-xl transition hover:bg-card/80"
+                  className="reveal group relative overflow-hidden rounded-3xl border border-border/50 bg-card/60 p-8 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-primary/30 hover:bg-card/80 hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.4)]"
+                  data-delay={idx * 120}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground/5 text-foreground transition group-hover:bg-primary/10 group-hover:text-primary">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground/5 text-foreground transition group-hover:scale-110 group-hover:bg-primary/10 group-hover:text-primary">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
                   <h3 className="mt-10 text-2xl font-semibold tracking-tight">{step.t}</h3>
@@ -405,9 +451,9 @@ function Home() {
       {/* LAYERS */}
       <section id="layers" className="relative border-b border-border/60 bg-card/20">
         <div className="mx-auto max-w-7xl px-6 py-28">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="reveal mx-auto max-w-3xl text-center">
             <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Cinque strati. Uno scopo.
+              Cinque strati. <span className="gradient-text">Uno scopo.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
               Ogni livello è invalicabile da solo. Insieme formano una superficie d'attacco praticamente nulla.
@@ -439,7 +485,8 @@ function Home() {
             ].map((l, i) => (
               <li
                 key={l.t}
-                className="group flex gap-8 border-t border-border/50 py-8 first:border-t-0 lg:py-10"
+                className="reveal group flex gap-8 border-t border-border/50 py-8 first:border-t-0 lg:py-10"
+                data-delay={i * 80}
               >
                 <div className="w-10 flex-shrink-0 pt-1 text-sm tabular-nums text-muted-foreground">
                   0{i + 1}
@@ -453,7 +500,7 @@ function Home() {
                   </p>
                 </div>
                 <KeyRound
-                  className="hidden h-5 w-5 self-center text-muted-foreground/30 transition group-hover:text-primary md:block"
+                  className="hidden h-5 w-5 self-center text-muted-foreground/30 transition group-hover:rotate-12 group-hover:text-primary md:block"
                   strokeWidth={1.75}
                 />
               </li>
@@ -469,9 +516,9 @@ function Home() {
           ref={manifestoBlobRef}
           className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl will-change-transform"
         />
-        <div className="relative mx-auto max-w-5xl px-6 py-32 text-center">
+        <div className="reveal relative mx-auto max-w-5xl px-6 py-32 text-center">
           <p className="text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-            Crediamo che la <span className="text-primary">privacy</span> non sia una feature.
+            Crediamo che la <span className="gradient-text">privacy</span> non sia una feature.
             <br />
             È il prerequisito per usare il cloud.
           </p>
@@ -484,12 +531,18 @@ function Home() {
       {/* CTA */}
       <section className="border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/60 p-12 backdrop-blur-2xl sm:p-20">
-            <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
-            <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+          <div className="reveal relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/60 p-12 backdrop-blur-2xl sm:p-20">
+            <div
+              className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/20 blur-3xl"
+              style={{ animation: "float-y 9s ease-in-out infinite" }}
+            />
+            <div
+              className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/10 blur-3xl"
+              style={{ animation: "float-y 11s ease-in-out infinite reverse" }}
+            />
             <div className="relative mx-auto max-w-2xl text-center">
               <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-                Pronto a sparire dai radar?
+                Pronto a <span className="gradient-text">sparire dai radar?</span>
               </h2>
               <p className="mx-auto mt-5 max-w-md text-lg text-muted-foreground">
                 10 GB gratuiti, per sempre. Senza carta di credito. Senza scadenza.
@@ -497,10 +550,15 @@ function Home() {
               <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   to="/login"
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition hover:bg-foreground/90"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition hover:bg-foreground/90"
                 >
-                  Crea il vault
-                  <ArrowUpRight className="h-4 w-4" />
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-background/30 to-transparent"
+                    style={{ animation: "shimmer 2.8s ease-in-out infinite" }}
+                  />
+                  <span className="relative">Crea il vault</span>
+                  <ArrowUpRight className="relative h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
                 <a
                   href="#how"
