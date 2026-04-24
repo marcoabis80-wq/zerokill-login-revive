@@ -83,31 +83,6 @@ function Typewriter() {
   );
 }
 
-function Marquee() {
-  const items = [
-    "AES-256-GCM",
-    "PBKDF2 · 600K",
-    "ZERO-KNOWLEDGE",
-    "REED-SOLOMON",
-    "TOR-READY",
-    "EU NODES",
-    "OPEN AUDIT",
-    "NO LOGS",
-  ];
-  return (
-    <div className="relative flex w-full overflow-hidden border-y border-border/60 bg-card/40 py-4">
-      <div className="flex shrink-0 animate-[marquee_28s_linear_infinite] gap-12 pr-12">
-        {[...items, ...items].map((it, i) => (
-          <div key={i} className="flex items-center gap-3 whitespace-nowrap">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground">{it}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
