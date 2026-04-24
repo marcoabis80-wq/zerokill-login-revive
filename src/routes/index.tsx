@@ -257,14 +257,29 @@ function Home() {
           className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:py-28 will-change-transform"
         >
           <div className="lg:col-span-7">
-            <h1 className="font-semibold tracking-tight text-foreground">
-              <span className="block text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
+            <h1 className="font-extrabold tracking-tight text-foreground">
+              <span className="block text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
                 I tuoi file.
               </span>
-              <span className="block text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
-                Frammentati.
+              <span className="block text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
+                <span className="relative inline-block">
+                  Frammentati.
+                  <svg
+                    className="absolute -bottom-2 left-0 h-3 w-full text-primary"
+                    viewBox="0 0 300 12"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      d="M2 8 Q 75 2, 150 7 T 298 6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>
               </span>
-              <span className="block text-5xl leading-[1.02] text-muted-foreground sm:text-6xl lg:text-7xl">
+              <span className="block text-5xl leading-[0.95] text-muted-foreground sm:text-6xl lg:text-7xl">
                 Invisibili.
               </span>
             </h1>
