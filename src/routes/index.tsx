@@ -193,43 +193,41 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
-      {/* NAV */}
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+      {/* NAV — Apple-style floating, transparent, clean */}
+      <header className="sticky top-3 z-50 px-3 sm:top-4 sm:px-6">
+        <div
+          className="mx-auto flex h-12 max-w-5xl items-center justify-between rounded-full border border-border/40 bg-background/55 pl-5 pr-2 shadow-[0_1px_0_0_rgba(255,255,255,0.04)_inset,0_8px_32px_-12px_rgba(0,0,0,0.18)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-background/40"
+        >
           <Link to={"/" as string} className="flex items-center gap-2">
-            <Cloud className="h-6 w-6 text-primary" strokeWidth={2.5} />
-            <span className="text-lg font-extrabold tracking-tight">ZeroKeep</span>
+            <Cloud className="h-5 w-5 text-primary" strokeWidth={2.5} />
+            <span className="text-[15px] font-semibold tracking-tight">ZeroKeep</span>
           </Link>
-          <nav className="hidden items-center gap-8 md:flex">
-            <a href="#how" className="text-sm text-muted-foreground transition hover:text-foreground">
-              Come funziona
+          <nav className="hidden items-center gap-7 md:flex">
+            <a href="#how" className="text-[13px] font-medium text-muted-foreground transition hover:text-foreground">
+              Funzionalità
             </a>
-            <a
-              href="#layers"
-              className="text-sm text-muted-foreground transition hover:text-foreground"
-            >
+            <a href="#layers" className="text-[13px] font-medium text-muted-foreground transition hover:text-foreground">
               Sicurezza
             </a>
-            <a
-              href="#manifesto"
-              className="text-sm text-muted-foreground transition hover:text-foreground"
-            >
+            <a href="#manifesto" className="text-[13px] font-medium text-muted-foreground transition hover:text-foreground">
               Manifesto
             </a>
+            <Link to={"/" as string} className="text-[13px] font-medium text-muted-foreground transition hover:text-foreground">
+              Pricing
+            </Link>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <Link
               to="/login"
-              className="hidden rounded-full px-4 py-2 text-sm text-muted-foreground transition hover:text-foreground sm:inline-block"
+              className="hidden rounded-full px-3 py-1.5 text-[13px] font-medium text-muted-foreground transition hover:text-foreground sm:inline-block"
             >
               Accedi
             </Link>
             <Link
               to="/login"
-              className="group inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+              className="inline-flex items-center gap-1 rounded-full bg-foreground/90 px-3.5 py-1.5 text-[13px] font-semibold text-background transition hover:bg-foreground"
             >
               Inizia gratis
-              <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
         </div>
