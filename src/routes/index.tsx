@@ -531,12 +531,18 @@ function Home() {
       {/* CTA */}
       <section className="border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/60 p-12 backdrop-blur-2xl sm:p-20">
-            <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
-            <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+          <div className="reveal relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/60 p-12 backdrop-blur-2xl sm:p-20">
+            <div
+              className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/20 blur-3xl"
+              style={{ animation: "float-y 9s ease-in-out infinite" }}
+            />
+            <div
+              className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/10 blur-3xl"
+              style={{ animation: "float-y 11s ease-in-out infinite reverse" }}
+            />
             <div className="relative mx-auto max-w-2xl text-center">
               <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-                Pronto a sparire dai radar?
+                Pronto a <span className="gradient-text">sparire dai radar?</span>
               </h2>
               <p className="mx-auto mt-5 max-w-md text-lg text-muted-foreground">
                 10 GB gratuiti, per sempre. Senza carta di credito. Senza scadenza.
@@ -544,10 +550,15 @@ function Home() {
               <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   to="/login"
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition hover:bg-foreground/90"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition hover:bg-foreground/90"
                 >
-                  Crea il vault
-                  <ArrowUpRight className="h-4 w-4" />
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-background/30 to-transparent"
+                    style={{ animation: "shimmer 2.8s ease-in-out infinite" }}
+                  />
+                  <span className="relative">Crea il vault</span>
+                  <ArrowUpRight className="relative h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
                 <a
                   href="#how"
